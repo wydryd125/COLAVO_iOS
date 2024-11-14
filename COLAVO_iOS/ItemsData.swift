@@ -9,10 +9,9 @@ import Foundation
 
 struct Item: Identifiable, Codable {
     let id: UUID
-    let count: Int
+    var count: Int
     let name: String
     let price: Int
-    var isDiscounted: Bool = false
     
     init(count: Int, name: String, price: Int) {
         self.id = UUID()
@@ -34,12 +33,22 @@ struct Item: Identifiable, Codable {
         self.price = try container.decode(Int.self, forKey: .price)
         self.id = UUID()
     }
+    
+    func getAmountString() -> String {
+        return (price * count).formattedCurrency()
+    }
+    
+    func getDiscountAmountString(rate: Double) -> String {
+        let amount = price * count
+        return (amount - Int((Double(amount) * rate))).formattedCurrency()
+    }
 }
 
 struct Discount: Identifiable, Codable {
     let id: UUID
     let name: String
     let rate: Double
+    var items = [Item]()
     
     init(name: String, rate: Double) {
         self.id = UUID()

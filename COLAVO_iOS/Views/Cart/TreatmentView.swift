@@ -89,10 +89,18 @@ struct TreatmentView: View {
                 .frame(maxWidth: .infinity, alignment: .center)
             
             Button(action: {
-                for idx in selectedItems.indices {
-                    selectedItems[idx].isDiscounted = true
-                }
                 cartManager.selectedTreatments = selectedItems
+                selectedItems.forEach { item in
+                    for idx in cartManager.selectedDiscounts.indices {
+                        var discount = cartManager.selectedDiscounts[idx]
+                        if !discount.items.contains(where: { $0.id == item.id }) {
+                            discount.items.append(item)
+                        } else {
+                            discount.items = selectedItems
+                        }
+                        cartManager.selectedDiscounts[idx].items = discount.items
+                    }
+                }
                 dismiss()
             }) {
                 Text("완료")
@@ -118,7 +126,7 @@ struct ItemRow: View {
         HStack {
             VStack(alignment: .leading, spacing: 2) {
                 Text(item.name)
-                    .foregroundColor(.pupleGray)
+                    .foregroundColor(Color.darkGray)
                     .font(.system(size: 16))
                     .fontWeight(.medium)
                     .lineLimit(2)
@@ -130,9 +138,10 @@ struct ItemRow: View {
             Spacer()
             
             Image("done")
+                .resizable()
                 .renderingMode(.template)
                 .foregroundColor(isSelected ? .colavoPurple : .white)
-                .frame(width: 32, height: 28, alignment: .trailing)
+                .frame(width: 24, height: 24, alignment: .trailing)
         }
         .frame(maxWidth: .infinity)
         .contentShape(Rectangle())

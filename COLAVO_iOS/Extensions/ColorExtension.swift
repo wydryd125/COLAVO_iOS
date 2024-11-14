@@ -32,4 +32,5 @@ extension Color {
     static let midGray = Color(red: 195, green: 203, blue: 210)
     static let pupleGray = Color(red: 100, green: 98, blue: 123)
     static let blueGray = Color(red: 182, green: 190, blue: 200)
+    static let darkGray = Color(red: 98, green: 98, blue: 98)
 }

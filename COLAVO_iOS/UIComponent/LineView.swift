@@ -9,7 +9,7 @@ import SwiftUI
 
 struct LineView: View {
     var isDotted: Bool
-    var lineWidth: CGFloat = 1
+    var lineWidth: CGFloat = 0.6
     var color: Color = .lightGray
 
     var body: some View {

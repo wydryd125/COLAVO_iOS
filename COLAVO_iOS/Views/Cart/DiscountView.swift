@@ -88,6 +88,9 @@ struct DiscountView: View {
                 .frame(maxWidth: .infinity, alignment: .center)
             
             Button(action: {
+                for idx in selectedDiscount.indices {
+                    selectedDiscount[idx].items = cartManager.selectedTreatments
+                }
                 cartManager.selectedDiscounts = selectedDiscount
                 dismiss()
             }) {
@@ -115,7 +118,7 @@ struct DiscountRow: View {
             HStack(alignment: .top) {
                 VStack(alignment: .leading, spacing: 2) {
                     Text(discount.name)
-                        .foregroundColor(.pupleGray)
+                        .foregroundColor(Color.darkGray)
                         .font(.system(size: 16))
                         .fontWeight(.medium)
                         .lineLimit(2)
@@ -126,9 +129,10 @@ struct DiscountRow: View {
                 }
                 Spacer()
                 Image("done")
+                    .resizable()
                     .renderingMode(.template)
                     .foregroundColor(isSelected ? .colavoPurple : .white)
-                    .frame(width: 32, height: 28, alignment: .trailing)
+                    .frame(width: 24, height: 24, alignment: .trailing)
             }
             .frame(maxWidth: .infinity)
             .padding(.vertical, 8)
@@ -137,7 +141,7 @@ struct DiscountRow: View {
                 isSelected.toggle()
             }
             
-            LineView(isDotted: false, lineWidth: 0.6)
+            LineView(isDotted: false)
                 .frame(height: 1, alignment: .bottom)
                 .background(Color.lightGray)
             
