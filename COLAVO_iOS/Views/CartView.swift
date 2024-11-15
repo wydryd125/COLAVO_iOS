@@ -8,25 +8,39 @@
 import SwiftUI
 
 struct CartView: View {
-    @ObservedObject private var cartManager = CartManager.shared
-    @ObservedObject private var viewModel = CartViewModel()
-    @State private var isShowTreatmentView = false
+    @StateObject private var viewModel = CartViewModel()
+    @State private var isShowItemView = false
     @State private var isShowDiscountView = false
-    @State private var showDiscountId: UUID? = nil
+    @State private var showDiscountId: UUID?
     
     var body: some View {
         NavigationStack {
             VStack() {
-                navigationView
-                addButtonsView
-                ScrollView(showsIndicators: false) {
-                    itemListView
-                    discountListView
+                if viewModel.isLoading {
+                    ProgressView("Loading...")
+                        .progressViewStyle(CircularProgressViewStyle())
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+                } else {
+                    navigationView
+                    addButtonsView
+                    if viewModel.selectedItems.isEmpty && viewModel.selectedDiscounts.isEmpty {
+                        Text("시술 선택해주세요.")
+                            .foregroundColor(.midGray.opacity(0.6))
+                            .font(.system(size: 14))
+                            .fontWeight(.medium)
+                            .padding(.top, -16)
+                            .frame(maxHeight: .infinity, alignment: .center)
+                    } else {
+                        ScrollView(showsIndicators: false) {
+                            itemListView
+                            discountListView
+                        }
+                    }
+                    nextButtonView
                 }
-                nextButtonView
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-            .background(Color.white)
+            .background(viewModel.isLoading ? Color.lightPurple : Color.white)
         }
     }
     
@@ -47,7 +61,7 @@ struct CartView: View {
                 .frame(height: 8)
             HStack(spacing: 8) {
                 Button(action: {
-                    isShowTreatmentView = true
+                    isShowItemView = true
                 }) {
                     HStack {
                         Image("add")
@@ -65,10 +79,9 @@ struct CartView: View {
                     .cornerRadius(16)
                 }
                 .buttonStyle(PlainButtonStyle())
-                .fullScreenCover(isPresented: $isShowTreatmentView) {
-                    if let itemsData = viewModel.itemsData {
-                        TreatmentView(itemList: itemsData.sortedItems())
-                    }
+                .fullScreenCover(isPresented: $isShowItemView) {
+                    ItemView()
+                        .environmentObject(viewModel)
                 }
                 
                 Button(action: {
@@ -91,9 +104,8 @@ struct CartView: View {
                 }
                 .buttonStyle(PlainButtonStyle())
                 .fullScreenCover(isPresented: $isShowDiscountView) {
-                    if let itemsData = viewModel.itemsData {
-                        DiscountView(discountList: itemsData.sortedDiscount())
-                    }
+                    DiscountView()
+                        .environmentObject(viewModel)
                 }
             }
             .background(Color.white)
@@ -104,7 +116,7 @@ struct CartView: View {
     
     private var itemListView: some View {
         LazyVStack(spacing: 24) {
-            ForEach(cartManager.selectedTreatments) { item in
+            ForEach(viewModel.selectedItems) { item in
                 HStack() {
                     VStack(alignment: .leading, spacing: 2) {
                         Text(item.name)
@@ -113,14 +125,14 @@ struct CartView: View {
                             .fontWeight(.medium)
                             .lineLimit(2)
                             .truncationMode(.tail)
-                        Text(item.getAmountString())
+                        Text(item.getAmount().formattedCurrency(code: viewModel.itemsData?.currencyCode ?? .kr))
                             .foregroundColor(.blueGray)
                             .font(.system(size: 14))
                     }
                     Spacer()
                     HStack(alignment: .center, spacing: 8) {
                         Button(action: {
-                            cartManager.removeItem(item: item)
+                            viewModel.removeItem(item: item)
                         }) {
                             Image("minus")
                                 .resizable()
@@ -128,14 +140,12 @@ struct CartView: View {
                                 .foregroundColor(.midGray)
                                 .frame(width: 16, height: 16)
                         }
-                        
                         Text("\(item.count)")
                             .foregroundColor(.darkGray)
                             .font(.system(size: 14))
                             .fontWeight(.medium)
-                        
                         Button(action: {
-                            cartManager.addItem(item: item)
+                            viewModel.addItem(item: item)
                         }) {
                             Image("plus")
                                 .resizable()
@@ -149,14 +159,14 @@ struct CartView: View {
                 .contentShape(Rectangle())
             }
         }
-        .padding(.top, 16)
+        .padding(.top, viewModel.selectedItems.isEmpty ? 0 : 16)
         .padding(.horizontal, 24)
     }
     
     private var discountListView: some View {
         LazyVStack(spacing: 24) {
-            ForEach(cartManager.selectedDiscounts) { discount in
-                HStack() {
+            ForEach(viewModel.selectedDiscounts) { discount in
+                HStack {
                     VStack(alignment: .leading, spacing: 2) {
                         Text(discount.name)
                             .foregroundColor(.pupleGray)
@@ -164,19 +174,21 @@ struct CartView: View {
                             .fontWeight(.medium)
                             .lineLimit(2)
                             .truncationMode(.tail)
-                        Text(cartManager.getDiscountItemList(discount: discount))
+                        Text(viewModel.getDiscountItemList(discount: discount))
                             .foregroundColor(.midGray)
                             .font(.system(size: 12))
                             .lineLimit(2)
                             .truncationMode(.tail)
                         Spacer().frame(height: 2)
-                        Text(cartManager.getDiscountAmount(discount: discount))
+                        Text(viewModel.getDiscountAmount(discount: discount))
                             .foregroundColor(.colavoPink)
                             .font(.system(size: 14))
                     }
                     Spacer()
                     Button(action: {
-                        showDiscountId = discount.id
+                        if !discount.items.isEmpty {
+                            showDiscountId = discount.id
+                        }
                     }) {
                         HStack(spacing: 0) {
                             Text("할인 리스트")
@@ -191,24 +203,24 @@ struct CartView: View {
                     }
                     .frame(width: 88, height: 48, alignment: .trailing)
                     .sheet(isPresented: Binding(
-                        get: { showDiscountId != nil },
+                        get: { showDiscountId == discount.id },
                         set: { isPresented in
-                            if !isPresented { showDiscountId = nil }
+                            if !isPresented {
+                                showDiscountId = nil
+                            }
                         }
                     )) {
-                        if let discountId = showDiscountId,
-                           let selectedDiscount = cartManager.selectedDiscounts.first(where: { $0.id == discountId }) {
-                            DiscountListView(discount: selectedDiscount)
-                                .presentationDetents([.medium, .large])
-                                .presentationDragIndicator(.hidden)
-                        }
+                        SelectedDiscountView(discount: discount)
+                            .presentationDetents([.medium, .large])
+                            .presentationDragIndicator(.hidden)
+                            .environmentObject(viewModel)
                     }
                 }
                 .frame(maxWidth: .infinity)
                 .contentShape(Rectangle())
             }
         }
-        .padding(.top, 16)
+        .padding(.top, viewModel.selectedItems.isEmpty ? 0 : 16)
         .padding(.horizontal, 24)
     }
     
@@ -222,7 +234,7 @@ struct CartView: View {
                     .foregroundStyle(Color.blueGray)
                     .frame(maxWidth: .infinity, alignment: .leading)
                 Spacer()
-                Text(cartManager.getFinalAmount())
+                Text(viewModel.getFinalAmount())
                     .font(.system(size: 28))
                     .foregroundStyle(.black)
                     .frame(maxWidth: .infinity, alignment: .trailing)

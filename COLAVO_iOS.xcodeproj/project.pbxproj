@@ -17,7 +17,7 @@
 		093AE0162CE34EA2004EF5BC /* EndPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093AE0152CE34EA2004EF5BC /* EndPoint.swift */; };
 		093AE0182CE34EC7004EF5BC /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093AE0172CE34EC7004EF5BC /* ColorExtension.swift */; };
 		093AE01D2CE358D0004EF5BC /* CartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093AE01C2CE358D0004EF5BC /* CartView.swift */; };
-		093AE01F2CE358E4004EF5BC /* TreatmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093AE01E2CE358E4004EF5BC /* TreatmentView.swift */; };
+		093AE01F2CE358E4004EF5BC /* ItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093AE01E2CE358E4004EF5BC /* ItemView.swift */; };
 		093AE0212CE358F0004EF5BC /* DiscountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093AE0202CE358F0004EF5BC /* DiscountView.swift */; };
 		093AE0232CE36005004EF5BC /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093AE0222CE36005004EF5BC /* DateExtension.swift */; };
 		093AE0252CE378E2004EF5BC /* LineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093AE0242CE378E2004EF5BC /* LineView.swift */; };
@@ -25,9 +25,8 @@
 		0950AE0D2CE48B1B0002874D /* ItemsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0950AE0C2CE48B1B0002874D /* ItemsData.swift */; };
 		0950AE122CE495F20002874D /* ItemsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0950AE112CE495F20002874D /* ItemsRepository.swift */; };
 		0950AE142CE496950002874D /* ItemsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0950AE132CE496950002874D /* ItemsAPI.swift */; };
-		0950AE172CE4D1960002874D /* CartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0950AE162CE4D1960002874D /* CartManager.swift */; };
-		0950AE1C2CE4F80D0002874D /* NumericExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0950AE1B2CE4F80D0002874D /* NumericExtension.swift */; };
-		0950AE202CE644DD0002874D /* DiscountListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0950AE1F2CE644DD0002874D /* DiscountListView.swift */; };
+		0950AE1C2CE4F80D0002874D /* IntExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0950AE1B2CE4F80D0002874D /* IntExtension.swift */; };
+		0950AE202CE644DD0002874D /* SelectedDiscountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0950AE1F2CE644DD0002874D /* SelectedDiscountView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,7 +60,7 @@
 		093AE0152CE34EA2004EF5BC /* EndPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPoint.swift; sourceTree = "<group>"; };
 		093AE0172CE34EC7004EF5BC /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		093AE01C2CE358D0004EF5BC /* CartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartView.swift; sourceTree = "<group>"; };
-		093AE01E2CE358E4004EF5BC /* TreatmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreatmentView.swift; sourceTree = "<group>"; };
+		093AE01E2CE358E4004EF5BC /* ItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemView.swift; sourceTree = "<group>"; };
 		093AE0202CE358F0004EF5BC /* DiscountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscountView.swift; sourceTree = "<group>"; };
 		093AE0222CE36005004EF5BC /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		093AE0242CE378E2004EF5BC /* LineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineView.swift; sourceTree = "<group>"; };
@@ -69,9 +68,8 @@
 		0950AE0C2CE48B1B0002874D /* ItemsData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsData.swift; sourceTree = "<group>"; };
 		0950AE112CE495F20002874D /* ItemsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsRepository.swift; sourceTree = "<group>"; };
 		0950AE132CE496950002874D /* ItemsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsAPI.swift; sourceTree = "<group>"; };
-		0950AE162CE4D1960002874D /* CartManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartManager.swift; sourceTree = "<group>"; };
-		0950AE1B2CE4F80D0002874D /* NumericExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumericExtension.swift; sourceTree = "<group>"; };
-		0950AE1F2CE644DD0002874D /* DiscountListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscountListView.swift; sourceTree = "<group>"; };
+		0950AE1B2CE4F80D0002874D /* IntExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntExtension.swift; sourceTree = "<group>"; };
+		0950AE1F2CE644DD0002874D /* SelectedDiscountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedDiscountView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,7 +124,6 @@
 				093AE00E2CE34E26004EF5BC /* API+Repository */,
 				093AE0102CE34E3E004EF5BC /* Model */,
 				093AE0112CE34E4D004EF5BC /* Views */,
-				0950AE152CE4D1760002874D /* Managers */,
 				093AE0122CE34E55004EF5BC /* UIComponent */,
 				093AE00F2CE34E34004EF5BC /* Extensions */,
 				093ADFE12CE34D55004EF5BC /* COLAVO_iOSApp.swift */,
@@ -173,7 +170,8 @@
 		093AE00E2CE34E26004EF5BC /* API+Repository */ = {
 			isa = PBXGroup;
 			children = (
-				0950AE182CE4D2260002874D /* Cart */,
+				0950AE132CE496950002874D /* ItemsAPI.swift */,
+				0950AE112CE495F20002874D /* ItemsRepository.swift */,
 			);
 			path = "API+Repository";
 			sourceTree = "<group>";
@@ -183,7 +181,7 @@
 			children = (
 				093AE0172CE34EC7004EF5BC /* ColorExtension.swift */,
 				093AE0222CE36005004EF5BC /* DateExtension.swift */,
-				0950AE1B2CE4F80D0002874D /* NumericExtension.swift */,
+				0950AE1B2CE4F80D0002874D /* IntExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -191,7 +189,8 @@
 		093AE0102CE34E3E004EF5BC /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				0950AE192CE4D2340002874D /* Cart */,
+				0950AE0C2CE48B1B0002874D /* ItemsData.swift */,
+				0950AE0A2CE48A2F0002874D /* CartViewModel.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -199,7 +198,10 @@
 		093AE0112CE34E4D004EF5BC /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				0950AE1A2CE4D2420002874D /* Cart */,
+				093AE01C2CE358D0004EF5BC /* CartView.swift */,
+				093AE01E2CE358E4004EF5BC /* ItemView.swift */,
+				093AE0202CE358F0004EF5BC /* DiscountView.swift */,
+				0950AE1F2CE644DD0002874D /* SelectedDiscountView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -210,43 +212,6 @@
 				093AE0242CE378E2004EF5BC /* LineView.swift */,
 			);
 			path = UIComponent;
-			sourceTree = "<group>";
-		};
-		0950AE152CE4D1760002874D /* Managers */ = {
-			isa = PBXGroup;
-			children = (
-				0950AE162CE4D1960002874D /* CartManager.swift */,
-			);
-			path = Managers;
-			sourceTree = "<group>";
-		};
-		0950AE182CE4D2260002874D /* Cart */ = {
-			isa = PBXGroup;
-			children = (
-				0950AE132CE496950002874D /* ItemsAPI.swift */,
-				0950AE112CE495F20002874D /* ItemsRepository.swift */,
-			);
-			path = Cart;
-			sourceTree = "<group>";
-		};
-		0950AE192CE4D2340002874D /* Cart */ = {
-			isa = PBXGroup;
-			children = (
-				0950AE0C2CE48B1B0002874D /* ItemsData.swift */,
-				0950AE0A2CE48A2F0002874D /* CartViewModel.swift */,
-			);
-			name = Cart;
-			sourceTree = "<group>";
-		};
-		0950AE1A2CE4D2420002874D /* Cart */ = {
-			isa = PBXGroup;
-			children = (
-				093AE01C2CE358D0004EF5BC /* CartView.swift */,
-				093AE01E2CE358E4004EF5BC /* TreatmentView.swift */,
-				093AE0202CE358F0004EF5BC /* DiscountView.swift */,
-				0950AE1F2CE644DD0002874D /* DiscountListView.swift */,
-			);
-			path = Cart;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -384,13 +349,12 @@
 				093AE0142CE34E95004EF5BC /* NetworkManager.swift in Sources */,
 				093AE01D2CE358D0004EF5BC /* CartView.swift in Sources */,
 				093AE0232CE36005004EF5BC /* DateExtension.swift in Sources */,
-				0950AE202CE644DD0002874D /* DiscountListView.swift in Sources */,
+				0950AE202CE644DD0002874D /* SelectedDiscountView.swift in Sources */,
 				093AE0162CE34EA2004EF5BC /* EndPoint.swift in Sources */,
 				093AE0182CE34EC7004EF5BC /* ColorExtension.swift in Sources */,
-				093AE01F2CE358E4004EF5BC /* TreatmentView.swift in Sources */,
+				093AE01F2CE358E4004EF5BC /* ItemView.swift in Sources */,
 				0950AE142CE496950002874D /* ItemsAPI.swift in Sources */,
-				0950AE172CE4D1960002874D /* CartManager.swift in Sources */,
-				0950AE1C2CE4F80D0002874D /* NumericExtension.swift in Sources */,
+				0950AE1C2CE4F80D0002874D /* IntExtension.swift in Sources */,
 				093ADFE22CE34D55004EF5BC /* COLAVO_iOSApp.swift in Sources */,
 				093AE0252CE378E2004EF5BC /* LineView.swift in Sources */,
 				093AE0212CE358F0004EF5BC /* DiscountView.swift in Sources */,

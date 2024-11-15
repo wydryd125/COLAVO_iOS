@@ -8,9 +8,7 @@
 import SwiftUI
 
 struct DiscountView: View {
-    @StateObject private var cartManager = CartManager.shared
-    let discountList: [Discount]
-    @State private var selectedDiscount = [Discount]()
+    @EnvironmentObject private var viewModel: CartViewModel
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
@@ -40,7 +38,7 @@ struct DiscountView: View {
                 .foregroundColor(.black)
             Spacer()
             Button(action: {
-                
+                // Handle any future action for the plus button if needed
             }) {
                 Image("plus")
                     .renderingMode(.template)
@@ -55,43 +53,36 @@ struct DiscountView: View {
             Spacer()
                 .frame(height: 16)
             LazyVStack(spacing: 24) {
-                ForEach(discountList,  id: \.id) { item in
-                    DiscountRow(discount: item, isSelected: Binding(
+                ForEach(viewModel.itemsData?.sortedDiscount() ?? [], id: \.id) { discount in
+                    DiscountRow(discount: discount, isSelected: Binding(
                         get: {
-                            selectedDiscount.contains { $0.id == item.id }
+                            viewModel.selectedDiscounts.contains { $0.id == discount.id }
                         },
                         set: { _ in
-                            if !selectedDiscount.contains(where: { $0.id == item.id }) {
-                                selectedDiscount.append(item)
-                            } else {
-                                selectedDiscount.removeAll { $0.id == item.id }
-                            }
+                            viewModel.toggleDiscountSelection(discount: discount)
                         }
                     ))
                     .frame(height: 40)
                 }
             }
             .padding(.horizontal, 24)
-            .onAppear {
-                selectedDiscount = cartManager.selectedDiscounts
-            }
         }
     }
     
     private var completeButtonView: some View {
         VStack(spacing: 12) {
-            Spacer()
-                .frame(height: 8)
+            Spacer().frame(height: 8)
             Text("할인을 선택하세요(여러개 선택 가능)")
                 .font(.system(size: 12))
                 .foregroundStyle(.white)
                 .frame(maxWidth: .infinity, alignment: .center)
             
             Button(action: {
-                for idx in selectedDiscount.indices {
-                    selectedDiscount[idx].items = cartManager.selectedTreatments
+                for index in viewModel.selectedDiscounts.indices {
+                    var discount = viewModel.selectedDiscounts[index]
+                    discount.items = viewModel.selectedItems
+                    viewModel.selectedDiscounts[index] = discount
                 }
-                cartManager.selectedDiscounts = selectedDiscount
                 dismiss()
             }) {
                 Text("완료")
@@ -144,8 +135,6 @@ struct DiscountRow: View {
             LineView(isDotted: false)
                 .frame(height: 1, alignment: .bottom)
                 .background(Color.lightGray)
-            
-            //마지막 라인 숨기기 수정
         }
     }
 }

@@ -1,5 +1,5 @@
 //
-//  NumericExtension.swift
+//  IntExtension.swift
 //  COLAVO_iOS
 //
 //  Created by wjdyukyung on 11/14/24.
@@ -8,13 +8,16 @@
 import Foundation
 
 extension Int {
-    func formattedCurrency() -> String {
+    func formattedCurrency(code: CurrencyCode) -> String {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
-        formatter.locale = Locale(identifier: "ko_KR")
-        
         let formattedAmount = formatter.string(from: NSNumber(value: self)) ?? "\(self)"
         
-        return "\(formattedAmount)원"
+        switch code {
+        case .kr:
+            return "\(formattedAmount)원"
+        case .us:
+            return "$\(formattedAmount)"
+        }
     }
 }

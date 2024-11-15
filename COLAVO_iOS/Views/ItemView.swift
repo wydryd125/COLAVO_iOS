@@ -1,5 +1,5 @@
 //
-//  TreatmentView.swift
+//  ItemView.swift
 //  COLAVO_iOS
 //
 //  Created by wjdyukyung on 11/12/24.
@@ -8,10 +8,8 @@
 import SwiftUI
 import Combine
 
-struct TreatmentView: View {
-    let itemList: [Item]
-    @State private var selectedItems = [Item]()
-    @StateObject private var cartManager = CartManager.shared
+struct ItemView: View {
+    @EnvironmentObject private var viewModel: CartViewModel
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
@@ -26,7 +24,6 @@ struct TreatmentView: View {
         }
     }
     
-    //수정 네비게이션 커스텀 뷰로 만들기
     private var navigationView: some View {
         HStack {
             Button(action: {
@@ -42,7 +39,7 @@ struct TreatmentView: View {
                 .foregroundColor(.black)
             Spacer()
             Button(action: {
-                
+                // plus 처리
             }) {
                 Image("plus")
                     .renderingMode(.template)
@@ -57,25 +54,19 @@ struct TreatmentView: View {
             Spacer()
                 .frame(height: 16)
             LazyVStack(spacing: 24) {
-                ForEach(itemList,  id: \.id) { item in
-                    ItemRow(item: item, isSelected: Binding(
+                ForEach(viewModel.itemsData?.sortedItems() ?? [], id: \.id) { item in
+                    let code = viewModel.itemsData?.currencyCode ?? .kr
+                    ItemRow(item: item, code: code, isSelected: Binding(
                         get: {
-                            selectedItems.contains { $0.id == item.id }
+                            viewModel.selectedItems.contains { $0.id == item.id }
                         },
                         set: { _ in
-                            if !selectedItems.contains(where: { $0.id == item.id }) {
-                                selectedItems.append(item)
-                            } else {
-                                selectedItems.removeAll { $0.id == item.id }
-                            }
+                            viewModel.toggleItemSelection(item: item)
                         }
                     ))
                 }
             }
             .padding(.horizontal, 24)
-            .onAppear {
-                selectedItems = cartManager.selectedTreatments
-            }
         }
     }
     
@@ -89,18 +80,6 @@ struct TreatmentView: View {
                 .frame(maxWidth: .infinity, alignment: .center)
             
             Button(action: {
-                cartManager.selectedTreatments = selectedItems
-                selectedItems.forEach { item in
-                    for idx in cartManager.selectedDiscounts.indices {
-                        var discount = cartManager.selectedDiscounts[idx]
-                        if !discount.items.contains(where: { $0.id == item.id }) {
-                            discount.items.append(item)
-                        } else {
-                            discount.items = selectedItems
-                        }
-                        cartManager.selectedDiscounts[idx].items = discount.items
-                    }
-                }
                 dismiss()
             }) {
                 Text("완료")
@@ -120,6 +99,7 @@ struct TreatmentView: View {
 
 struct ItemRow: View {
     let item: Item
+    let code: CurrencyCode
     @Binding var isSelected: Bool
     
     var body: some View {
@@ -131,7 +111,7 @@ struct ItemRow: View {
                     .fontWeight(.medium)
                     .lineLimit(2)
                     .truncationMode(.tail)
-                Text(item.price.formattedCurrency())
+                Text(item.price.formattedCurrency(code: code))
                     .foregroundColor(.blueGray)
                     .font(.system(size: 14))
             }
