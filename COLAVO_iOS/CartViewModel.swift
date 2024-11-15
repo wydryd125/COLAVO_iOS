@@ -65,12 +65,12 @@ class CartViewModel: ObservableObject {
     func toggleItemSelection(item: Item) {
         if let index = selectedItems.firstIndex(where: { $0.id == item.id }) {
             selectedItems.remove(at: index)
-            for (discountIndex, discount) in selectedDiscounts.enumerated() {
+            for (discountIndex, _) in selectedDiscounts.enumerated() {
                 selectedDiscounts[discountIndex].items.removeAll { $0.id == item.id }
             }
         } else {
             selectedItems.insert(item, at: 0)
-            for (discountIndex, discount) in selectedDiscounts.enumerated() {
+            for (discountIndex, _) in selectedDiscounts.enumerated() {
                 selectedDiscounts[discountIndex].items.append(item)
             }
         }
