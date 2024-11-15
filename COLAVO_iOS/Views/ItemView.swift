@@ -25,26 +25,19 @@ struct ItemView: View {
     }
     
     private var navigationView: some View {
-        HStack {
+        ZStack {
             Button(action: {
                 dismiss()
             }) {
                 Image("dismiss")
                     .renderingMode(.template)
                     .foregroundColor(.midGray)
+                    .frame(maxWidth: .infinity, alignment: .leading)
             }
-            Spacer()
             Text("시술메뉴")
                 .font(.headline)
                 .foregroundColor(.black)
-            Spacer()
-            Button(action: {
-                // plus 처리
-            }) {
-                Image("plus")
-                    .renderingMode(.template)
-                    .foregroundColor(.midGray)
-            }
+                .frame(maxWidth: .infinity)
         }
         .padding(.horizontal, 16)
     }

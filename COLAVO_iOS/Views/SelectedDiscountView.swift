@@ -10,7 +10,7 @@ import SwiftUI
 
 struct SelectedDiscountView: View {
     var discount: Discount
-    @State private var showAlert = false
+    @State private var removeItem: Item? = nil
     @EnvironmentObject private var viewModel: CartViewModel
     @Environment(\.dismiss) private var dismiss
     
@@ -28,20 +28,20 @@ struct SelectedDiscountView: View {
     
     private var discountTitleView: some View {
         ZStack {
-               Button(action: {
-                   dismiss()
-               }) {
-                   Image("dismiss")
-                       .renderingMode(.template)
-                       .foregroundColor(.midGray)
-                       .frame(maxWidth: .infinity, alignment: .leading)
-               }
-               Text(discount.name + " (\(discount.getDiscountPercent()))")
-                   .font(.headline)
-                   .foregroundColor(.darkGray)
-                   .frame(maxWidth: .infinity)
-           }
-           .padding(.horizontal, 24)
+            Button(action: {
+                dismiss()
+            }) {
+                Image("dismiss")
+                    .renderingMode(.template)
+                    .foregroundColor(.midGray)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
+            Text(discount.name + " (\(discount.getDiscountPercent()))")
+                .font(.headline)
+                .foregroundColor(.darkGray)
+                .frame(maxWidth: .infinity)
+        }
+        .padding(.horizontal, 24)
     }
     
     private var listView: some View {
@@ -51,7 +51,8 @@ struct SelectedDiscountView: View {
                 ForEach(discount.items, id: \.id) { item in
                     HStack {
                         VStack(alignment: .leading, spacing: 2) {
-                            Text("\(item.name) x \(item.count)")
+                            let name = item.count > 1 ? "\(item.name) x \(item.count)" : item.name
+                            Text(name)
                                 .foregroundColor(Color.darkGray)
                                 .font(.system(size: 14))
                                 .fontWeight(.medium)
@@ -64,7 +65,7 @@ struct SelectedDiscountView: View {
                         }
                         Spacer()
                         Button(action: {
-                            showAlert = true
+                            removeItem = item // 선택된 아이템을 alertItem에 저장
                         }) {
                             Image("done")
                                 .resizable()
@@ -72,7 +73,7 @@ struct SelectedDiscountView: View {
                                 .foregroundColor(.colavoPurple)
                                 .frame(width: 24, height: 24, alignment: .trailing)
                         }
-                        .alert(isPresented: $showAlert) {
+                        .alert(item: $removeItem) { item in
                             Alert(
                                 title: Text("할인 적용을 취소하시겠습니까?"),
                                 primaryButton: .cancel(Text("취소")),

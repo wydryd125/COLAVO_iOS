@@ -24,26 +24,19 @@ struct DiscountView: View {
     }
     
     private var navigationView: some View {
-        HStack {
+        ZStack {
             Button(action: {
                 dismiss()
             }) {
                 Image("dismiss")
                     .renderingMode(.template)
                     .foregroundColor(.midGray)
+                    .frame(maxWidth: .infinity, alignment: .leading)
             }
-            Spacer()
             Text("할인")
                 .font(.headline)
                 .foregroundColor(.black)
-            Spacer()
-            Button(action: {
-                // Handle any future action for the plus button if needed
-            }) {
-                Image("plus")
-                    .renderingMode(.template)
-                    .foregroundColor(.midGray)
-            }
+                .frame(maxWidth: .infinity)
         }
         .padding(.horizontal, 16)
     }

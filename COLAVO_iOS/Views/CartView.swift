@@ -190,15 +190,17 @@ struct CartView: View {
                             showDiscountId = discount.id
                         }
                     }) {
-                        HStack(spacing: 0) {
-                            Text("할인 리스트")
-                                .foregroundColor(.pupleGray)
-                                .font(.system(size: 12))
-                                .fontWeight(.medium)
-                            
-                            Image("arrowBottom")
-                                .renderingMode(.template)
-                                .foregroundColor(.midGray)
+                        if !viewModel.selectedItems.isEmpty {
+                            HStack(spacing: 0) {
+                                Text("할인 리스트")
+                                    .foregroundColor(.pupleGray)
+                                    .font(.system(size: 12))
+                                    .fontWeight(.medium)
+                                
+                                Image("arrowBottom")
+                                    .renderingMode(.template)
+                                    .foregroundColor(.midGray)
+                            }
                         }
                     }
                     .frame(width: 88, height: 48, alignment: .trailing)

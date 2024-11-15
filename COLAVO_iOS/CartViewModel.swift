@@ -102,6 +102,7 @@ class CartViewModel: ObservableObject {
     
     // 아이템 한개씩 삭제
     func removeItem(item: Item) {
+        // 아이템을 selectedItems에서 제거
         if let index = selectedItems.firstIndex(where: { $0.id == item.id }) {
             if selectedItems[index].count > 1 {
                 selectedItems[index].count -= 1
@@ -109,16 +110,24 @@ class CartViewModel: ObservableObject {
                 selectedItems.remove(at: index)
             }
         }
-        for (discountIndex, discount) in selectedDiscounts.enumerated() {
+        
+        for discountIndex in (0..<selectedDiscounts.count).reversed() {
+            var discount = selectedDiscounts[discountIndex]
+            
             if let itemIndex = discount.items.firstIndex(where: { $0.id == item.id }) {
                 if discount.items[itemIndex].count > 1 {
                     selectedDiscounts[discountIndex].items[itemIndex].count -= 1
                 } else {
                     selectedDiscounts[discountIndex].items.remove(at: itemIndex)
                 }
+                
+                if selectedDiscounts[discountIndex].items.isEmpty {
+                    selectedDiscounts.remove(at: discountIndex)
+                }
             }
         }
     }
+    
     
     // 할인 별 적용 아이템 삭제
     func removeItemFromDiscount(discount: Discount, item: Item) {
